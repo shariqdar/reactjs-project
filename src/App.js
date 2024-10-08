@@ -11,9 +11,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [itemOffset, setItemOffset] = useState(0);
   useEffect(() => {
-      axios.get('https://dummyjson.com/products')
-      .then( (response) =>{
-        let dataSet = response.data.products
+    axios.get('https://2olp7lg2mc.execute-api.ap-south-1.amazonaws.com/Dev')
+      .then(response => {
+        let dataSet = response.data.products.Items
         setProducts((products) => {
           return { 
             ...products,
@@ -22,15 +22,33 @@ function App() {
             "currentItems": dataSet.slice(itemOffset, (itemOffset + itemsPerPage)),
             "pageCount": Math.ceil(dataSet.length / itemsPerPage)
           }
-        })
+         })
+      })
+      .catch( (error) => {
+        console.log("error",error);
+        setLoading(false);
+      })
+    
+    // axios.get('https://dummyjson.com/products')
+    //   .then( (response) =>{
+    //     let dataSet = response.data.products
+        // setProducts((products) => {
+        //   return { 
+        //     ...products,
+        //     "products": dataSet,
+        //     "endOffset": itemOffset + itemsPerPage,
+        //     "currentItems": dataSet.slice(itemOffset, (itemOffset + itemsPerPage)),
+        //     "pageCount": Math.ceil(dataSet.length / itemsPerPage)
+        //   }
+        //  })
         
         
         
-    })
-    .catch( (error) => {
-      console.log("error",error);
-      setLoading(false);
-    })
+    // })
+    // .catch( (error) => {
+    //   console.log("error",error);
+    //   setLoading(false);
+    // })
     
   },[])
 
@@ -105,7 +123,7 @@ function Items( items ) {
           return (
             
               <li key={item.id+"-li"}>
-                <strong key={item.id+"-strong"}>{item.title}</strong>
+                <strong key={item.id+"-strong"}>{item.name}</strong>
                 <p key={item.id+"-p"}>{item.description}</p>
               </li>
             
